@@ -9,5 +9,5 @@ class Account(id: EntityID<Long>) : LongEntity(id) {
     companion object : LongEntityClass<Account>(Accounts)
 
     var accountId by Accounts.id
-    var balance by Accounts.cents
+    var balanceCents by Accounts.cents
 }

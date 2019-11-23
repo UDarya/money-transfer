@@ -9,7 +9,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-private val accountDAO: AccountDAO = AccountDAO()
+private val accountDAO: AccountDAOImpl = AccountDAOImpl()
 
 class AccountDAOTest {
 
@@ -19,12 +19,12 @@ class AccountDAOTest {
 
         assertNotNull(account)
         assertNotNull(account.accountId)
-        assertNotNull(account.balance)
+        assertNotNull(account.balanceCents)
 
         val resultAccount = accountDAO.getById(account.accountId.value)
 
         assertNotNull(resultAccount)
-        assertEquals(0L, resultAccount.balance)
+        assertEquals(0L, resultAccount.balanceCents)
     }
 
     @Test
@@ -35,7 +35,7 @@ class AccountDAOTest {
         val resultAccount = accountDAO.getById(account.accountId.value)
 
         assertNotNull(resultAccount)
-        assertEquals(cents, resultAccount.balance)
+        assertEquals(cents, resultAccount.balanceCents)
 
     }
 

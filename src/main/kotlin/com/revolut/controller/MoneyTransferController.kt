@@ -1,18 +1,16 @@
 package com.revolut.controller
 
 import com.google.gson.Gson
-import com.revolut.dao.AccountDAO
-import com.revolut.enums.HttpCode
 import com.revolut.enums.Status
 import com.revolut.service.TransferRq
-import com.revolut.service.TransferServiceImpl
+import com.revolut.service.TransferService
 import com.revolut.validator.isValid
+import org.eclipse.jetty.http.HttpStatus
 import spark.Response
 import spark.Spark.post
 
-class MoneyTransferController {
+class MoneyTransferController(transferService: TransferService) {
     init {
-        val transferService = TransferServiceImpl(AccountDAO())
         var gson = Gson()
 
         post("/transfer") { request, response ->
@@ -31,13 +29,12 @@ class MoneyTransferController {
             when (val status = transferService.transfer(body.from!!, body.to!!, body.cents!!)) {
                 Status.SUCCESS -> {
                     response.body(status.description)
-                    response.status(HttpCode.OK.code)
+                    response.status(HttpStatus.Code.OK.code)
                 }
                 else -> {
                     response.body(status.description)
-                    response.status(HttpCode.SERVER_ERROR.code)
+                    response.status(HttpStatus.Code.INTERNAL_SERVER_ERROR.code)
                 }
-
             }
 
             response.body()
@@ -45,8 +42,8 @@ class MoneyTransferController {
     }
 
     private fun badRequestRs(response: Response): String {
-        response.status(HttpCode.BAD_REQUEST.code)
-        response.body(HttpCode.BAD_REQUEST.description)
-        return HttpCode.BAD_REQUEST.description
+        response.status(HttpStatus.Code.BAD_REQUEST.code)
+        response.body(HttpStatus.Code.BAD_REQUEST.message)
+        return HttpStatus.Code.BAD_REQUEST.message
     }
 }
