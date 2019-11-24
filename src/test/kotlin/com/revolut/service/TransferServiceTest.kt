@@ -4,6 +4,8 @@ import com.revolut.dao.AccountDAOImpl
 import com.revolut.entity.Account
 import com.revolut.enums.Status
 import com.revolut.table.Accounts
+import io.mockk.spyk
+import io.mockk.verifySequence
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -16,7 +18,7 @@ import kotlin.test.assertNotNull
 
 
 class TransferServiceTest {
-    private val accountDAO = AccountDAOImpl()
+    private val accountDAO = spyk(AccountDAOImpl())
     private val transferService = TransferServiceImpl(accountDAO)
 
     @Test
@@ -72,7 +74,7 @@ class TransferServiceTest {
     }
 
     @Test
-    fun `when transfer 100 then success`() {
+    fun `when transfer 100 from account with 200 then success`() {
         val fromAcc = 1L
         val toAcc = 2L
 
@@ -111,6 +113,33 @@ class TransferServiceTest {
 
         assertNotNull(status)
         assertEquals(Status.INCORRECT_AMOUNT, status)
+    }
+
+    @Test
+    fun `when transfer from 2 to 1 then first select for 1`() {
+        val fromAcc = 2L
+        val toAcc = 1L
+
+        transaction {
+            Account.new {
+                this.accountId = EntityID(fromAcc, Accounts)
+                this.balanceCents = 100 * 100
+            }
+
+            Account.new {
+                this.accountId = EntityID(toAcc, Accounts)
+                this.balanceCents = 100 * 100
+            }
+        }
+
+        val status = transferService.transfer(fromAcc, toAcc, 100)
+        assertNotNull(status)
+        assertEquals(Status.SUCCESS.code, status.code)
+
+        verifySequence {
+            accountDAO.getById(toAcc)
+            accountDAO.getById(fromAcc)
+        }
     }
 
     @Before

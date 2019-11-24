@@ -16,12 +16,17 @@ import org.jetbrains.exposed.sql.deleteAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.koin.spark.runControllers
 import org.koin.spark.start
 import org.koin.spark.stop
+import repeat.Repeat
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import repeat.RepeatRule
+
+
 
 private const val PORT = 8000
 private const val HOST = "localhost"
@@ -30,7 +35,12 @@ private val gson = Gson()
 
 class MultiThreadedTests {
 
+    @Rule
+    @JvmField
+    var rule = RepeatRule()
+
     @Test
+    @Repeat(times = 10)
     fun `when 100 async request then data is consistent`() {
         val fromAcc = 1L
         val toAcc = 2L

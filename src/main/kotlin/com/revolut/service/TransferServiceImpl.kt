@@ -12,8 +12,16 @@ class TransferServiceImpl(private val accountDAO: AccountDAO) : TransferService 
     override fun transfer(from: Long, to: Long, amount: Long): Status {
         if (amount <= 0) return Status.INCORRECT_AMOUNT
         return transaction(Connection.TRANSACTION_SERIALIZABLE, 2) {
-            var fromAcc: Account = accountDAO.getById(from) ?: return@transaction Status.THERE_IS_NOT_ACCOUNT
-            var tooAcc: Account = accountDAO.getById(to) ?: return@transaction Status.THERE_IS_NOT_ACCOUNT
+            var fromAcc: Account
+            var tooAcc: Account
+
+            if (from < to) {
+                fromAcc = accountDAO.getById(from) ?: return@transaction Status.THERE_IS_NOT_ACCOUNT
+                tooAcc = accountDAO.getById(to) ?: return@transaction Status.THERE_IS_NOT_ACCOUNT
+            } else {
+                tooAcc = accountDAO.getById(to) ?: return@transaction Status.THERE_IS_NOT_ACCOUNT
+                fromAcc = accountDAO.getById(from) ?: return@transaction Status.THERE_IS_NOT_ACCOUNT
+            }
 
             val amountCents = amount.toCents()
             val fromAccBalance = fromAcc.balanceCents
