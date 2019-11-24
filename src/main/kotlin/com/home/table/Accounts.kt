@@ -1,4 +1,4 @@
-package com.revolut.table
+package com.home.table
 
 import org.jetbrains.exposed.dao.LongIdTable
 import org.jetbrains.exposed.sql.Column

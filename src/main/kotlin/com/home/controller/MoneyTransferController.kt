@@ -1,10 +1,10 @@
-package com.revolut.controller
+package com.home.controller
 
 import com.google.gson.Gson
-import com.revolut.enums.Status
-import com.revolut.service.TransferRq
-import com.revolut.service.TransferService
-import com.revolut.validator.isValid
+import com.home.enums.Status
+import com.home.service.TransferRq
+import com.home.service.TransferService
+import com.home.validator.isValid
 import org.eclipse.jetty.http.HttpStatus
 import spark.Response
 import spark.Spark.post

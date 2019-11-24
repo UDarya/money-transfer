@@ -1,9 +1,9 @@
-package com.revolut.service
+package com.home.service
 
-import com.revolut.dao.AccountDAOImpl
-import com.revolut.entity.Account
-import com.revolut.enums.Status
-import com.revolut.table.Accounts
+import com.home.dao.AccountDAOImpl
+import com.home.entity.Account
+import com.home.enums.Status
+import com.home.table.Accounts
 import io.mockk.spyk
 import io.mockk.verifySequence
 import org.jetbrains.exposed.dao.EntityID

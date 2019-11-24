@@ -1,11 +1,11 @@
-package com.revolut.controller
+package com.home.controller
 
 import com.google.gson.Gson
-import com.revolut.dao.AccountDAO
-import com.revolut.enums.Status
-import com.revolut.service.TransferRq
-import com.revolut.service.TransferService
-import com.revolut.util.doHttpPost
+import com.home.dao.AccountDAO
+import com.home.enums.Status
+import com.home.service.TransferRq
+import com.home.service.TransferService
+import com.home.util.doHttpPost
 import io.mockk.every
 import io.mockk.mockk
 import okhttp3.Response

@@ -1,6 +1,6 @@
-package com.revolut.dao
+package com.home.dao
 
-import com.revolut.entity.Account
+import com.home.entity.Account
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class AccountDAOImpl: AccountDAO {

@@ -1,4 +1,4 @@
-package com.revolut.enums
+package com.home.enums
 
 enum class Status(val code: Int, val description: String) {
     SUCCESS(1, "Success"),

@@ -1,4 +1,4 @@
-package com.revolut.service
+package com.home.service
 
 data class TransferRq(
     val from: Long?,

@@ -1,10 +1,10 @@
-package com.revolut
+package com.home
 
-import com.revolut.controller.MoneyTransferController
-import com.revolut.dao.AccountDAO
-import com.revolut.dao.AccountDAOImpl
-import com.revolut.service.TransferService
-import com.revolut.service.TransferServiceImpl
+import com.home.controller.MoneyTransferController
+import com.home.dao.AccountDAO
+import com.home.dao.AccountDAOImpl
+import com.home.service.TransferService
+import com.home.service.TransferServiceImpl
 import org.jetbrains.exposed.sql.Database
 import org.koin.dsl.module.applicationContext
 import org.koin.spark.controller

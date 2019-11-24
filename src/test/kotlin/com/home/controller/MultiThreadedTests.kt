@@ -1,12 +1,12 @@
-package com.revolut.controller
+package com.home.controller
 
 import com.google.gson.Gson
-import com.revolut.entity.Account
-import com.revolut.money.toCents
-import com.revolut.moneyModule
-import com.revolut.service.TransferRq
-import com.revolut.table.Accounts
-import com.revolut.util.doHttpPost
+import com.home.entity.Account
+import com.home.money.toCents
+import com.home.moneyModule
+import com.home.service.TransferRq
+import com.home.table.Accounts
+import com.home.util.doHttpPost
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.dao.EntityID

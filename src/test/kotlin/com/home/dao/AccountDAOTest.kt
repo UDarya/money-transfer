@@ -1,6 +1,6 @@
-package com.revolut.dao
+package com.home.dao
 
-import com.revolut.table.Accounts
+import com.home.table.Accounts
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction

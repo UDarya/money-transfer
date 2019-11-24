@@ -1,5 +1,5 @@
-package com.revolut.validator
+package com.home.validator
 
-import com.revolut.service.TransferRq
+import com.home.service.TransferRq
 
 fun TransferRq?.isValid(): Boolean  = (this != null && from != null && to != null && cents != null)

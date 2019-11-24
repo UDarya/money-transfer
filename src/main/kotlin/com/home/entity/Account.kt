@@ -1,6 +1,6 @@
-package com.revolut.entity
+package com.home.entity
 
-import com.revolut.table.Accounts
+import com.home.table.Accounts
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
