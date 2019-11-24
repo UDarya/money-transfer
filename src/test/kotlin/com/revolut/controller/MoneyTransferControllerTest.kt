@@ -5,7 +5,7 @@ import com.revolut.dao.AccountDAO
 import com.revolut.enums.Status
 import com.revolut.service.TransferRq
 import com.revolut.service.TransferService
-import io.github.rybalkinsd.kohttp.dsl.httpPost
+import com.revolut.util.doHttpPost
 import io.mockk.every
 import io.mockk.mockk
 import okhttp3.Response
@@ -40,7 +40,7 @@ class MoneyTransferControllerTest : KoinTest {
             transferServiceMock.transfer(any(), any(), any())
         } returns Status.SUCCESS
 
-        val response: Response = httpPost(gson.toJson(request))
+        val response: Response = doHttpPost(gson.toJson(request), HOST, PORT, PATH)
 
         assertNotNull(response)
         assertTrue(response.isSuccessful)
@@ -48,7 +48,7 @@ class MoneyTransferControllerTest : KoinTest {
 
     @Test
     fun `when empty request body then return bad request error`() {
-        val response: Response = httpPost("")
+        val response: Response = doHttpPost("", HOST, PORT, PATH)
 
         assertNotNull(response)
         assertTrue(!response.isSuccessful)
@@ -58,21 +58,21 @@ class MoneyTransferControllerTest : KoinTest {
     @Test
     fun `when parameters are empty then return bad request error`() {
         var request = TransferRq(null, 2, 1)
-        var response: Response = httpPost(gson.toJson(request))
+        var response: Response = doHttpPost(gson.toJson(request), HOST, PORT, PATH)
 
         assertNotNull(response)
         assertTrue(!response.isSuccessful)
         assertEquals(HttpStatus.Code.BAD_REQUEST.code, response.code())
 
         request = TransferRq(2, null, 1)
-        response = httpPost(gson.toJson(request))
+        response = doHttpPost(gson.toJson(request), HOST, PORT, PATH)
 
         assertNotNull(response)
         assertTrue(!response.isSuccessful)
         assertEquals(HttpStatus.Code.BAD_REQUEST.code, response.code())
 
         request = TransferRq(2, 1, null)
-        response = httpPost(gson.toJson(request))
+        response = doHttpPost(gson.toJson(request), HOST, PORT, PATH)
 
         assertNotNull(response)
         assertTrue(!response.isSuccessful)
@@ -82,7 +82,7 @@ class MoneyTransferControllerTest : KoinTest {
     @Test
     fun `when request format incorrect then return bad request error`() {
         val request = "{\"test\": \"incorrect request\"}"
-        var response: Response = httpPost(request)
+        var response: Response = doHttpPost(request, HOST, PORT, PATH)
 
         assertNotNull(response)
         assertTrue(!response.isSuccessful)
@@ -97,7 +97,7 @@ class MoneyTransferControllerTest : KoinTest {
             transferServiceMock.transfer(any(), any(), any())
         } returns Status.THERE_IS_NOT_ACCOUNT
 
-        val response: Response = httpPost(gson.toJson(request))
+        val response: Response = doHttpPost(gson.toJson(request), HOST, PORT, PATH)
 
         assertNotNull(response)
         assertTrue(!response.isSuccessful)
@@ -105,16 +105,6 @@ class MoneyTransferControllerTest : KoinTest {
         assertNotNull(response.body())
         assertEquals(Status.THERE_IS_NOT_ACCOUNT.description, response.body()!!.string())
     }
-
-    private fun httpPost(jsonBody: String): Response = httpPost {
-        host = HOST
-        port = PORT
-        path = PATH
-        body {
-            json(jsonBody)
-        }
-    }
-
 
     @Before
     fun `run application`() {

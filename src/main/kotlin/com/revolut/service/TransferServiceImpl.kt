@@ -10,6 +10,7 @@ import java.sql.Connection
 class TransferServiceImpl(private val accountDAO: AccountDAO) : TransferService {
 
     override fun transfer(from: Long, to: Long, amount: Long): Status {
+        if (amount <= 0) return Status.INCORRECT_AMOUNT
         return transaction(Connection.TRANSACTION_SERIALIZABLE, 2) {
             var fromAcc: Account = accountDAO.getById(from) ?: return@transaction Status.THERE_IS_NOT_ACCOUNT
             var tooAcc: Account = accountDAO.getById(to) ?: return@transaction Status.THERE_IS_NOT_ACCOUNT

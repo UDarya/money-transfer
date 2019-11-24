@@ -105,6 +105,14 @@ class TransferServiceTest {
         assertEquals(amountCents + transferAmount * 100, toAccount.balanceCents)
     }
 
+    @Test
+    fun `when negative then return incorrect amount error`() {
+        val status = transferService.transfer(1L, 2L, -5)
+
+        assertNotNull(status)
+        assertEquals(Status.INCORRECT_AMOUNT, status)
+    }
+
     @Before
     fun `run db`() {
         Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver")
