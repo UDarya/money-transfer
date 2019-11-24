@@ -9,9 +9,9 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-private val accountDAO: AccountDAOImpl = AccountDAOImpl()
-
 class AccountDAOTest {
+
+    private val accountDAO: AccountDAOImpl = AccountDAOImpl()
 
     @Test
     fun `when account created then select result is not null`() {
